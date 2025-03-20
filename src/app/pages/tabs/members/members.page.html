@@ -1,0 +1,83 @@
+<ion-header >
+  <ion-toolbar color="secondary">
+    <ion-title>members</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+      <ion-button color="primary">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <ion-toolbar color="secondary">
+    <ion-searchbar class="srchBar" placeholder="Search Name / Mobile Number" inputmode="decimal" type="decimal"  [debounce]="250"></ion-searchbar>
+
+    <ion-row>
+      <ion-col size="4">
+          <div>
+            <ion-select value="All Packages" fill="solid" interface="popover"  label=""> 
+              <ion-select-option value="All Packages">All Packages</ion-select-option>
+              <ion-select-option value="Monthly Packages">Student Membership</ion-select-option>
+            </ion-select>
+          </div>
+      </ion-col>
+
+      <ion-col size="4">
+        <div>
+          <ion-select value="All Types" fill="solid" interface="popover"  label=""> 
+            <ion-select-option value="All Types">All Types</ion-select-option>
+            <ion-select-option value="Monthly Packages">Student Membership</ion-select-option>
+            <ion-select-option value="singal Membership">singal Membership</ion-select-option>
+          </ion-select>
+        </div>
+    </ion-col>
+
+    <ion-col size="4">
+      <div>
+        <ion-select value="Select Batch" fill="solid" interface="popover"  label=""> 
+          <ion-select-option value="Select Batch">Select Batch</ion-select-option>
+          <ion-select-option value="Morning Batch">Morning Batch</ion-select-option>
+            <ion-select-option value="Evening Batch">Evening Batch</ion-select-option>
+        </ion-select>
+      </div>
+  </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="medium">
+  <ion-list>
+    <ion-item-divider color="medium" mode="ios">
+      Member 
+      <div slot="end" class="selectDiv activeFilter">
+        <ion-select
+          value="Active"
+          interface="popover"
+          label=""
+          justify="start"
+        >
+          <ion-select-option value="Active"
+            >Active</ion-select-option
+          >
+          <ion-select-option value="Inactive"
+            >Inactive</ion-select-option
+          >
+        </ion-select>
+      </div>
+    </ion-item-divider>
+  </ion-list>
+
+  @for(member of members(); track $index){
+    <app-member [member]="member"></app-member>
+  }
+
+</ion-content>

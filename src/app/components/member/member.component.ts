@@ -1,9 +1,9 @@
 import { Component, input, OnInit } from '@angular/core';
-import { IonCard,IonItem,IonThumbnail,IonLabel,IonButton,IonIcon,IonText,IonRow,IonCol } from "@ionic/angular/standalone";
+import { IonCard, IonLabel, IonText, IonRow, IonCol } from "@ionic/angular/standalone";
 import { DatePipe } from "@angular/common";
-import { IMember } from 'src/app/interface/imember';
 import { RouterLink } from '@angular/router';
 import { MemberPersonalDetailComponent } from "../member-personal-detail/member-personal-detail.component";
+import { IMember } from 'src/app/interface/imember';
 
 @Component({
   selector: 'app-member',
@@ -13,7 +13,7 @@ import { MemberPersonalDetailComponent } from "../member-personal-detail/member-
 })
 export class MemberComponent  implements OnInit {
 
-  member=input<IMember>();
+  public member=input<IMember>();
 
   constructor() { 
   }

@@ -1,13 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="secondary">
     <ion-title>routine</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">routine</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list style="width: 100%; display: flex; flex-direction: column;">
+    <ion-card *ngFor="let item of routines() | keyvalue" style="background-color: rgb(237, 234, 234);">
+      <ion-label>
+        <div style="width: 90%; display: flex; justify-content: space-around; padding-top: 6px; padding-bottom: 6px;">
+          <h2>{{item.value[0].trainingType}}</h2>
+          <h2>{{item.key}}</h2>
+          <ion-icon *ngIf="fullTime!=item.key" (click)="fullTime=item.key" name="caret-down-outline"></ion-icon>
+          <ion-icon *ngIf="fullTime==item.key" (click)="fullTime=''" name="caret-up-outline"></ion-icon>
+        </div>
+      </ion-label>
+      <ion-list *ngIf="fullTime==item.key">
+        <ion-card class="user" *ngFor="let user of item.value" [routerLink]="['/', 'tabs', 'members', user.userId]" style="background-color: rgb(255, 255, 255);">
+          <ion-item lines="none" style="padding: 10px;">
+            <div style="display: flex; justify-content: space-around; width: 100%;">
+              <ion-thumbnail style="height: 80px; width: 90px;">
+                <img [src]="user.photo" style="border-radius: 10%; height: 80px; width: 90px; object-fit: fill;"/>
+              </ion-thumbnail>
+            
+              <ion-label style="display: flex; flex-direction: column; gap: 10px;">
+                <h1>{{user.name}}</h1>
+                <p>
+                  <ion-text color="dark">
+                   <h3>{{user.phone}}</h3>
+                  </ion-text>
+                </p>
+              </ion-label>
+            </div>
+          </ion-item> 
+        </ion-card>
+      </ion-list>
+    </ion-card>
+    
+  </ion-list>
 </ion-content>

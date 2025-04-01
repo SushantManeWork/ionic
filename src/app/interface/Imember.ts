@@ -8,12 +8,10 @@ export interface IMember {
   gender: string;
   address: string;
   batchName: string;
-  batchTime: {
-    startTime:string;
-    endTime:string;
-  };
+  batchTime: string;
   trainingType: string;
-  package: {
+  isActive: boolean;
+  packageDTO: {
     plan: string;
     totalAmount: number;
     discount: number;

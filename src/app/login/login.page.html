@@ -1,0 +1,136 @@
+<ion-content [fullscreen]="true">
+  <div class="login-page" *ngIf="login">
+    <div class="login-container">
+      <ion-card class="login-card">
+        <ion-card-header>
+          <ion-title class="login-title">Create Account</ion-title><br>
+        </ion-card-header>
+        <div class="subtitle-container">
+          <p class="subtitle">Sign up to access your account</p>
+        </div>
+  
+        <ion-card-content>
+          <form [formGroup]="regform" novalidate>
+            <ion-item>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-input formControlName="name" placeholder="Name"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('name')?.invalid && regform.get('name')?.touched">
+              <p *ngIf="regform.get('name')?.errors?.['required']">name is required</p>
+            </ion-text>
+  
+            <ion-item>
+              <ion-icon slot="start" name="call-outline"></ion-icon>
+              <ion-input formControlName="phone" type="tel" placeholder="Phone"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('phone')?.invalid && regform.get('phone')?.touched">
+              <p *ngIf="regform.get('phone')?.errors?.['required']">Phone number is required</p>
+              <p *ngIf="regform.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+            </ion-text>
+  
+            <ion-item>
+              <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+              <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('password')?.invalid && regform.get('password')?.touched">
+              <p *ngIf="regform.get('password')?.errors?.['required']">Password is required</p>
+              <p *ngIf="regform.get('password')?.errors?.['minlength']">Password must be at least 6 characters</p>
+            </ion-text>
+
+            <ion-item>
+              <ion-icon slot="start" name="location-outline"></ion-icon>
+              <ion-input formControlName="address" placeholder="Address"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('address')?.invalid && regform.get('address')?.touched">
+              <p *ngIf="regform.get('address')?.errors?.['required']">Address is required</p>
+            </ion-text>
+  
+            <ion-item>
+              <ion-icon name="person"></ion-icon>
+              <ion-label>Gender</ion-label>
+              <ion-select formControlName="gender" slot="end">
+                <ion-select-option value="Male">Male</ion-select-option>
+                <ion-select-option value="Female">Female</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('gender')?.invalid && regform.get('gender')?.touched">
+              <p *ngIf="regform.get('gender')?.errors?.['required']">Please select a Gender</p>
+            </ion-text>
+
+            <ion-item>
+              <ion-input formControlName="photo" placeholder="Image Link"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="regform.get('photo')?.invalid && regform.get('photo')?.touched">
+              <p *ngIf="regform.get('photo')?.errors?.['required']">Image Link is required</p>
+            </ion-text>
+
+            <div>
+              <ion-label style="display: flex;justify-content: center;">
+                <div style="width: 80%; display: flex; justify-content: space-between;">
+                  Speciality <ion-icon (click)="showSpeciality=true" *ngIf="!showSpeciality" slot="end" name="caret-down-outline"></ion-icon>
+                  <ion-icon (click)="showSpeciality=false" *ngIf="showSpeciality" slot="end" name="caret-up-outline"></ion-icon>
+                </div>
+              </ion-label>
+                  <div *ngIf="showSpeciality">
+                    <ion-item *ngFor="let trainingType of trainingTypes()">
+                      <ion-checkbox (ionChange)="onCheckboxChange($event,trainingType.id)" [checked]="isChecked(trainingType.id)">{{trainingType.trainingType}}</ion-checkbox>
+                  </ion-item>
+                  </div>
+              </div>
+            
+            <ion-button (click)="signup()" expand="block" shape="round">Register</ion-button>
+  
+            <p class="signup-text">
+              Already have an account? <span (click)="Accountlogin()">Login</span>
+            </p>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  
+  <div *ngIf="!login" >
+    <div class="login-page">
+      <div class="login-container">
+        <ion-card class="login-card">
+          <ion-card-header>
+            <ion-title class="login-title">Login</ion-title>
+          </ion-card-header>
+          <div class="subtitle-container">
+            <p class="subtitle">Sign in to access your account</p>
+          </div>
+    
+          <ion-card-content>
+            <form [formGroup]="loginform">
+    
+              <ion-item>
+                <ion-icon slot="start" name="call-outline"></ion-icon>
+                <ion-input formControlName="phone" type="number" placeholder="Phone" id="Phone"></ion-input>
+              </ion-item>
+              <ion-text color="danger" *ngIf="loginform.get('phone')?.invalid && loginform.get('phone')?.touched">
+                <p *ngIf="loginform.get('phone')?.errors?.['required']">Phone number is required</p>
+                <p *ngIf="loginform.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+              </ion-text>
+              
+              <ion-item>
+                <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+                <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+              </ion-item>
+              <ion-text color="danger" *ngIf="loginform.get('password')?.invalid && loginform.get('password')?.touched">
+                <p *ngIf="loginform.get('password')?.errors?.['required']">Password is required</p>
+                <p *ngIf="loginform.get('password')?.errors?.['pattern']">Password must have 6 length,1 uppercase,1 lowercase,1 special character,1 digit</p>
+              </ion-text>
+    
+              <ion-button (click)="loginTrainer()" expand="block" shape="round">Login</ion-button>
+    
+              <p class="signup-text">
+                Not have an account? <span (click)="Accountlogin()">Create Account</span>
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>
+  

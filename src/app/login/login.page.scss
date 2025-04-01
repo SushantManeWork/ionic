@@ -1,0 +1,90 @@
+ion-content{
+  --background: #000000;
+}
+.login-page {
+    --background: #000000;
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+  
+      .login-card {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+        ion-card-header {
+           display: flex;
+           flex-direction: column;
+           justify-content: space-around;
+           align-items: center;
+          .login-title {
+            font-size: 18px;
+            font-weight: 500;
+          }
+        }
+
+        .subtitle-container{
+          width: 100%;
+          text-align: center;
+
+          .subtitle {
+            width: 100%;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+          }
+
+        }
+  
+        ion-card-content {
+          padding: 16px;
+  
+          ion-item{
+            --padding-start: 10%;
+            --border-color: #ddd;
+            margin-bottom: 16px;
+  
+            ion-icon {
+              color: #666;
+              margin-right: 8px;
+            }
+          }
+  
+          ion-button {
+            margin: 24px 0 16px;
+            --border-radius: 25px;
+            height: 48px;
+          }
+  
+          .signup-text {
+            text-align: center;
+            margin: 16px 0 0;
+            color: #666;
+  
+            span {
+              color: #3011f9;
+              text-decoration: none;
+              font-weight: 500;
+            }
+          }
+  
+          ion-text {
+            p {
+              margin: -12px 0 16px 0;
+              font-size: 12px;
+              padding-left: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  span{
+    color: #ddd;
+    cursor: pointer;
+  }
+  

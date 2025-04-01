@@ -1,5 +1,5 @@
 <ion-card [routerLink]="['/', 'tabs', 'members', member()?.id]"  >
-  <div>
+  <div >
     
     <app-member-personal-detail [member]="member()"></app-member-personal-detail>
 
@@ -9,7 +9,7 @@
           <ion-label color="dark">Plan Expiry</ion-label>
           <p>
             <ion-text color="dark">
-              {{member()?.package?.planExpiryDate |  date:'dd-MMM-yyyy'}}
+              {{member()?.packageDTO?.planExpiryDate |  date:'dd-MMM-yyyy'}}
             </ion-text>
           </p>
         </div>
@@ -19,7 +19,7 @@
           <ion-label color="dark">Day Remaiing</ion-label>
           <p>
             <ion-text color="dark">
-              {{member()?.package?.daysRemaining}}
+              {{member()?.packageDTO?.daysRemaining}}
             </ion-text>
           </p>
         </div>
@@ -29,7 +29,7 @@
           <ion-label color="dark">Due Amount</ion-label>
           <p>
             <ion-text color="dark">
-              ${{member()?.package?.dueAmount}}
+              ${{member()?.packageDTO?.dueAmount}}
             </ion-text>
           </p>
         </div>

@@ -1,52 +1,45 @@
 <ion-header >
   <ion-toolbar color="secondary">
-    <ion-title>members</ion-title>
-
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Home</ion-title>
 
     <ion-buttons slot="end">
       <ion-button>
         <ion-icon slot="icon-only" name="notifications"></ion-icon>
       </ion-button>
-      <ion-button color="primary">
+      <ion-button color="primary" [routerLink]="['/tabs/members/add']">
         <ion-icon slot="icon-only" name="add-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
   
   <ion-toolbar color="secondary">
-    <ion-searchbar class="srchBar" placeholder="Search Name / Mobile Number" inputmode="decimal" type="decimal"  [debounce]="250"></ion-searchbar>
+    <ion-searchbar class="srchBar" placeholder="Search Name / Mobile Number" inputmode="decimal" type="decimal"  [debounce]="250" [(ngModel)]="searchQuery"></ion-searchbar>
 
     <ion-row>
       <ion-col size="4">
           <div>
-            <ion-select value="All Packages" fill="solid" interface="popover"  label=""> 
-              <ion-select-option value="All Packages">All Packages</ion-select-option>
-              <ion-select-option value="Monthly Packages">Student Membership</ion-select-option>
+            <ion-select fill="solid" interface="popover"  [(ngModel)]="selectedPackage">
+              <ion-select-option value="All Packages">All Package</ion-select-option>
+              <ion-select-option *ngFor="let item of packages()" [value]="item.plan">{{item.plan}}</ion-select-option>
             </ion-select>
           </div>
       </ion-col>
 
       <ion-col size="4">
         <div>
-          <ion-select value="All Types" fill="solid" interface="popover"  label=""> 
-            <ion-select-option value="All Types">All Types</ion-select-option>
-            <ion-select-option value="Monthly Packages">Student Membership</ion-select-option>
-            <ion-select-option value="singal Membership">singal Membership</ion-select-option>
+          <ion-select fill="solid" interface="popover" [(ngModel)]="selectedTrainingType"> 
+            <ion-select-option value="All Training Types">All Training Types</ion-select-option>
+            <ion-select-option *ngFor="let item of trainingTypes()" [value]="item.trainingType">{{item.trainingType}}</ion-select-option>
           </ion-select>
         </div>
     </ion-col>
 
     <ion-col size="4">
       <div>
-        <ion-select value="Select Batch" fill="solid" interface="popover"  label=""> 
+        <ion-select fill="solid" interface="popover" [(ngModel)]="selectedBatchType" >
           <ion-select-option value="Select Batch">Select Batch</ion-select-option>
           <ion-select-option value="Morning Batch">Morning Batch</ion-select-option>
-            <ion-select-option value="Evening Batch">Evening Batch</ion-select-option>
+          <ion-select-option value="Evening Batch">Evening Batch</ion-select-option>
         </ion-select>
       </div>
   </ion-col>
@@ -59,25 +52,16 @@
     <ion-item-divider color="medium" mode="ios">
       Member 
       <div slot="end" class="selectDiv activeFilter">
-        <ion-select
-          value="Active"
-          interface="popover"
-          label=""
-          justify="start"
-        >
-          <ion-select-option value="Active"
-            >Active</ion-select-option
-          >
-          <ion-select-option value="Inactive"
-            >Inactive</ion-select-option
-          >
+        <ion-select [value]="true" interface="popover" justify="start" [(ngModel)]="isActive">
+          <ion-select-option [value]="true">Active</ion-select-option>
+          <ion-select-option [value]="false">Inactive</ion-select-option>
         </ion-select>
       </div>
     </ion-item-divider>
   </ion-list>
 
-  @for(member of members(); track $index){
-    <app-member [member]="member"></app-member>
+  @for(member of getFilteredMembers(); track $index){
+    <app-member *ngIf="isActive == member.isActive" [member]="member"></app-member>
   }
 
 </ion-content>

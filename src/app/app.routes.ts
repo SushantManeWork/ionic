@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -16,10 +16,6 @@ export const routes: Routes = [
         pathMatch:"full"
       },
       {
-        path: 'home',
-        loadComponent: () => import('./pages/tabs/home/home.page').then( m => m.HomePage)
-      },
-      {
         path: 'members',
         children: [
           {
@@ -27,9 +23,21 @@ export const routes: Routes = [
             loadComponent: () => import('./pages/tabs/members/members.page').then( m => m.MembersPage)
           },
           {
-            path: ':id',
-            loadComponent: () => import('./pages/tabs/member-details/member-details/member-details.page').then( m => m.MemberDetailsPage)
+            path: 'add',
+            loadComponent: () => import('./pages/tabs/add-member/add-member.page').then( m => m.AddMemberPage)
           },
+          {
+            path: 'renew/:id',
+            loadComponent: () => import('./pages/tabs/renew-member/renew-member.page').then( m => m.RenewMemberPage)
+          },
+          {
+            path: 'update/:id',
+            loadComponent: () => import('./pages/tabs/update-member/update-member.page').then( m => m.UpdateMemberPage)
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./pages/tabs/member-details/member-details.page').then( m => m.MemberDetailsPage)
+          }
         ]
       },
       {
@@ -38,8 +46,21 @@ export const routes: Routes = [
       },
       {
         path: 'account',
-        loadComponent: () => import('./pages/tabs/account/account.page').then( m => m.AccountPage)
+        children:[
+          {
+            path: '',
+            loadComponent: () => import('./pages/tabs/account/account.page').then( m => m.AccountPage),
+          },
+          {
+            path: 'update',
+            loadComponent: () => import('./pages/tabs/update-trainer/update-trainer.page').then( m => m.UpdateTrainerPage)
+          }
+        ]
       },
     ]
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   }
 ];

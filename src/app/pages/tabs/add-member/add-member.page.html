@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Add Member</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/members"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+ <ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Name" [(ngModel)]="user.name" #name="ngModel" labelPlacement="floating" required></ion-input> 
+    </ion-item>
+    <ion-text color="danger" *ngIf="name.touched || name.dirty">
+      <p *ngIf="name.errors?.['required']">Name is required</p>
+    </ion-text>
+  
+    <ion-item>
+      <ion-input label="Phone" [(ngModel)]="user.phone" #phone="ngModel" type="number" labelPlacement="floating" required pattern="^[0-9]{10}$"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="phone.touched || phone.dirty">
+      <p *ngIf="phone.errors?.['required']">Phone is required</p>
+      <p *ngIf="phone.errors?.['pattern']">Phone is invalid</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label>Gender
+        <ion-radio-group [(ngModel)]="user.gender" #gender="ngModel" required>
+          <ion-item lines="none">
+            <div style="width: 100%; display: flex; justify-content: space-around;">
+              <div style="width: 30%;"><ion-radio value="male">male</ion-radio></div>
+              <div style="width: 30%;"><ion-radio value="female">female</ion-radio></div>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </ion-label>
+    </ion-item>
+    <ion-text color="danger" *ngIf="gender.touched || gender.dirty">
+      <p *ngIf="gender.errors?.['required']">Gender is required</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-input label="Address" [(ngModel)]="user.address" #address="ngModel" labelPlacement="floating" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="address.touched || address.dirty">
+      <p *ngIf="address.errors?.['required']">Address is required</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-select
+      [(ngModel)]="user.trainingType"
+        interface="popover"
+        toggleIcon="add"
+        expandedIcon="remove"
+        placeholder="Batch Type">
+       @for(trainingType of trainingTypes(); track $index){
+        <ion-select-option [value]="trainingType.id">{{trainingType.trainingType}}</ion-select-option>
+       }
+      </ion-select>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label>Batch Time
+        <ion-radio-group [(ngModel)]="userBatch.batchName" #batchName="ngModel" required>
+          <ion-item lines="none">
+            <div style="width: 100%;">
+            <div style="width: 92%; padding-left: 4px; padding-right: 4px;" [style.background-color]="userBatch.batchName=='Morning Batch'?'chartreuse':'white'"><ion-radio value="Morning Batch">Morning Batch</ion-radio></div>
+            <div style="width: 92%; padding-left: 4px; padding-right: 4px;" [style.background-color]="userBatch.batchName=='Evening Batch'?'chartreuse':'white'"><ion-radio value="Evening Batch">Evening Batch</ion-radio></div>
+          </div>
+          </ion-item>
+        </ion-radio-group>
+      </ion-label>
+    </ion-item>
+    <ion-text color="danger" *ngIf="batchName.touched || batchName.dirty">
+      <p *ngIf="batchName.errors?.['required']">Batch is required</p>
+    </ion-text>
+
+    @if(userBatch.batchName!==''){
+      <ion-item>
+        <ion-select
+        [(ngModel)]="userBatch.batchTime" #batchTime="ngModel" required
+          interface="popover"
+          toggleIcon="add"
+          expandedIcon="remove"
+          aria-label="time"
+          placeholder="Batch Time">
+         @for(time of (userBatch.batchName=='Evening Batch'?eveningBatchTime:morningBatchTime); track $index){
+          <ion-select-option [value]="time">{{time}}</ion-select-option>
+         }
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="batchTime.touched || batchTime.dirty">
+        <p *ngIf="batchTime.errors?.['required']">Batch is required</p>
+      </ion-text>
+    }
+    
+    <ion-item lines="none">
+      <ion-label>Packages
+          <ion-card>
+            <ion-row>
+              <ion-col size="4">Plan</ion-col>
+            </ion-row>
+            <ion-radio-group [(ngModel)]="package">
+            @for(pack of packages(); track $index){
+              <ion-radio [value]="pack" style="width: 100%; padding-left: 4px; padding-right: 4px;" [style.background-color]="((package?.plan===pack.plan)?'chartreuse':'white')">
+                <ion-row >
+                  <ion-col size="4">{{pack.plan}}</ion-col>
+                </ion-row>
+              </ion-radio>
+            }
+          </ion-radio-group>
+          @if(package!=null){
+            <ion-item>
+              <ion-label>
+                <ion-row>
+                  <ion-col size="6">Amount</ion-col>
+                  <ion-col size="6">Discount</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">{{package.totalAmount}}</ion-col>
+                  <ion-col size="6">{{package.discount}}</ion-col>
+                </ion-row>
+              </ion-label>
+            </ion-item>
+          }
+          </ion-card>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input label="Paid Amount" [(ngModel)]="userBatch.paid" #paidAmount="ngModel" type="number" labelPlacement="floating" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="paidAmount.touched || paidAmount.dirty">
+      <p *ngIf="paidAmount.errors?.['required']">Paid Amount is required</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-input label="Image Link" [(ngModel)]="user.photo" #photo="ngModel" labelPlacement="floating" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="photo.touched || photo.dirty">
+      <p *ngIf="photo.errors?.['required']">Photo is required</p>
+    </ion-text>
+
+  </ion-list>
+  <br>
+  <ion-button expand="block" (click)="submit()">Submit</ion-button>
+ </ion-card>
+</ion-content>

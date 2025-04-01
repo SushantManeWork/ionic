@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core'; 
 import { IonIcon,IonTabButton,IonTabBar,IonTabs } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { homeOutline,personOutline,peopleOutline,calendarOutline,home,person,people,calendar} from "ionicons/icons";
+import { homeOutline,personOutline,calendarOutline,home,person,calendar} from "ionicons/icons";
 
 @Component({
   selector: 'app-tabs',
@@ -11,10 +11,10 @@ import { homeOutline,personOutline,peopleOutline,calendarOutline,home,person,peo
   imports: [ IonIcon,IonTabButton,IonTabBar,IonTabs]
 })
 export class TabsPage implements OnInit {
-  currentTab=signal<string>('members');
+  public currentTab=signal<string>('members');
 
   constructor() {
-    addIcons({homeOutline, personOutline,peopleOutline,calendarOutline,home,person,people,calendar});
+    addIcons({homeOutline, personOutline,calendarOutline,home,person,calendar});
    }
 
   ngOnInit() {
@@ -24,5 +24,4 @@ export class TabsPage implements OnInit {
     console.log(event);
     this.currentTab.set(event.tab);
   }
-
 }

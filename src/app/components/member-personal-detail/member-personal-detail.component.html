@@ -12,7 +12,9 @@
     </p>
   </ion-label>
 
-  <ion-button slot="end" fill="clear" color="dark">
-    <ion-icon slot="icon-only" name="chevron-forward-circle"></ion-icon>
-  </ion-button>
+  @if(isList()){
+    <ion-button slot="end" fill="clear" color="dark">
+      <ion-icon slot="icon-only" name="chevron-forward-circle"></ion-icon>
+    </ion-button>
+  }
 </ion-item> 

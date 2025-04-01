@@ -1,0 +1,90 @@
+<ion-header >
+  <ion-toolbar color="secondary">
+    <ion-title>Update Trainer</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="login-card">
+    <ion-card-header>
+      <ion-title class="login-title">Update Account</ion-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="trainerForm">
+        <ion-item>
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+          <ion-input formControlName="name" placeholder="Name"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('name')?.invalid && trainerForm.get('name')?.touched">
+          <p *ngIf="trainerForm.get('name')?.errors?.['required']">name is required</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-icon slot="start" name="call-outline"></ion-icon>
+          <ion-input formControlName="phone" type="tel" placeholder="Phone"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('phone')?.invalid && trainerForm.get('phone')?.touched">
+          <p *ngIf="trainerForm.get('phone')?.errors?.['required']">Phone number is required</p>
+          <p *ngIf="trainerForm.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('password')?.invalid && trainerForm.get('password')?.touched">
+          <p *ngIf="trainerForm.get('password')?.errors?.['required']">Password is required</p>
+          <p *ngIf="trainerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <ion-input formControlName="address" placeholder="Address"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('address')?.invalid && trainerForm.get('address')?.touched">
+          <p *ngIf="trainerForm.get('address')?.errors?.['required']">Address is required</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-icon name="person"></ion-icon>
+          <ion-label>Gender</ion-label>
+          <ion-select formControlName="gender" slot="end">
+            <ion-select-option value="Male">Male</ion-select-option>
+            <ion-select-option value="Female">Female</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('gender')?.invalid && trainerForm.get('gender')?.touched">
+          <p *ngIf="trainerForm.get('gender')?.errors?.['required']">Please select a Gender</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-input formControlName="photo" placeholder="Image Link"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="trainerForm.get('photo')?.invalid && trainerForm.get('photo')?.touched">
+          <p *ngIf="trainerForm.get('photo')?.errors?.['required']">Image Link is required</p>
+        </ion-text>
+
+        <div>
+          <ion-label style="display: flex;justify-content: center;">
+            <div style="width: 80%; display: flex; justify-content: space-between;">
+              Speciality <ion-icon (click)="showSpeciality=true" *ngIf="!showSpeciality" slot="end" name="caret-down-outline"></ion-icon>
+              <ion-icon (click)="showSpeciality=false" *ngIf="showSpeciality" slot="end" name="caret-up-outline"></ion-icon>
+            </div>
+          </ion-label>
+              <div *ngIf="showSpeciality">
+                <ion-item *ngFor="let trainingType of trainingTypes()">
+                  <ion-checkbox (ionChange)="onCheckboxChange($event,trainingType.id)" [checked]="isChecked(trainingType.id)">{{trainingType.trainingType}}</ion-checkbox>
+              </ion-item>
+              </div>
+          </div>
+        
+        <ion-button (click)="updateTrainer()" expand="block" shape="round">Update</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

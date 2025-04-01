@@ -1,0 +1,60 @@
+<ion-header >
+  <ion-toolbar color="secondary">
+    <ion-title>Update Member</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/members"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-title>Update Member</ion-title><br>
+    </ion-card-header>
+    <ion-list>
+      <form [formGroup]="userForm" novalidate>
+      <ion-item>
+        <ion-input label="Name" formControlName="name" labelPlacement="floating" ></ion-input> 
+      </ion-item>
+      <ion-text color="danger" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+        <p *ngIf="userForm.get('name')?.errors?.['required']">name is required</p>
+      </ion-text>
+    
+      <ion-item>
+        <ion-input label="Phone" formControlName="phone" type="number" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched">
+        <p *ngIf="userForm.get('phone')?.errors?.['required']">Phone number is required</p>
+        <p *ngIf="userForm.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+      </ion-text>
+  
+      <ion-item>
+        <ion-label>Gender
+          <ion-radio-group formControlName="gender">
+            <ion-item lines="none">
+              <div style="width: 100%; display: flex; justify-content: space-around;">
+                <div style="width: 30%;"><ion-radio value="male">male</ion-radio></div>
+                <div style="width: 30%;"><ion-radio value="female">female</ion-radio></div>
+              </div>
+            </ion-item>
+          </ion-radio-group>
+        </ion-label>
+      </ion-item>
+      <ion-text color="danger" *ngIf="userForm.get('gender')?.invalid && userForm.get('gender')?.touched">
+        <p *ngIf="userForm.get('gender')?.errors?.['required']">Please select a Gender</p>
+      </ion-text>
+  
+      <ion-item>
+        <ion-input label="Address" formControlName="address" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched">
+        <p *ngIf="userForm.get('address')?.errors?.['required']">Address is required</p>
+      </ion-text>
+
+      <ion-button (click)="updateMember()" expand="block" shape="round">Update</ion-button>
+    </form>
+    </ion-list>
+  </ion-card>
+</ion-content>

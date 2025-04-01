@@ -1,7 +1,6 @@
 import { Component, input, OnInit } from '@angular/core';
-import { IonItem,IonThumbnail,IonLabel,IonText,IonButton,IonIcon } from "@ionic/angular/standalone";
+import { IonItem, IonThumbnail, IonLabel, IonText, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { chevronForwardCircle } from "ionicons/icons";
 import { IMember } from 'src/app/interface/imember';
 
 @Component({
@@ -11,12 +10,12 @@ import { IMember } from 'src/app/interface/imember';
   imports:[IonItem,IonThumbnail,IonLabel,IonText,IonButton,IonIcon]
 })
 export class MemberPersonalDetailComponent  implements OnInit {
-
-  member=input<IMember>();  
+  public isList=input<boolean>();
+  public member=input<IMember>();
 
   constructor() {
     addIcons({})
-   }
+  }
 
   ngOnInit() {}
 

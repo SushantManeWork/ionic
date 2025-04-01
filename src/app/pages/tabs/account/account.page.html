@@ -1,13 +1,52 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="secondary">
     <ion-title>account</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [routerLink]="['/tabs/account/update']">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">account</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card style="padding: 5px; padding-top: 10px; padding-bottom: 10px; border: 1px solid black; box-shadow: 2px 2px 2px black;">
+    <ion-card-header>
+      <ion-card-title>Trainer Details</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list style="text-align: center; display: flex; flex-direction: column; gap: 10px;">
+        <ion-item lines="none">
+            <img [src]="trainer()?.photo" style="height: 280px; width: 280px; border-radius: 10%;" alt="">
+        </ion-item>
+        <ion-item >
+          <ion-label><h1>{{trainer()?.name}}</h1></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><h2>Phone - {{trainer()?.phone}}</h2></ion-label> 
+        </ion-item>
+        <ion-item>
+          <ion-label><h2>Gender - {{trainer()?.gender}}</h2></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><h2>Addresss - {{trainer()?.address}}</h2></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><h2>Speciality -</h2>
+            <div style="padding: 5px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;">
+              <ion-text style="color: salmon;" *ngFor="let item of trainer()?.trainingTypes">
+                <h3>{{item.trainingType}}</h3>
+              </ion-text>
+            </div>
+          </ion-label>
+        </ion-item>
+        <div>
+          <ion-button (click)="logOut()" color="danger" expand="block" shape="round">
+            Log Out
+          </ion-button>
+        </div>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -7,13 +7,14 @@ import { addCircle, chevronForwardCircle, menuOutline, notifications } from "ion
 import { addIcons } from 'ionicons';
 import { MemberComponent } from "../../../components/member/member.component";
 import { IMember } from 'src/app/interface/imember';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from 'src/app/services/userService/user-service.service';
 import { TrainingTypeService } from 'src/app/services/trainingType/training-type.service';
 import { ITrainingType } from 'src/app/interface/ITrainingType';
 import { IPackage } from 'src/app/interface/IPackage';
 import { PackageService } from 'src/app/services/package/package.service';
 import { AlertController } from "@ionic/angular";
+import { TrainerService } from 'src/app/services/trainer/trainer.service';
 
 @Component({
   selector: 'app-members',
@@ -39,12 +40,19 @@ export class MembersPage implements OnInit {
   private packageService = inject(PackageService);
   private trainingTypesService = inject(TrainingTypeService);
   private userService = inject(UserServiceService);
+  private trainerService=inject(TrainerService);
 
-  constructor(private alertController: AlertController) { 
-    addIcons({menuOutline,notifications,addCircle,chevronForwardCircle});
+  constructor(private alertController: AlertController, private router: Router) { 
+    addIcons({addCircle, chevronForwardCircle, menuOutline, notifications});
   }
 
   ngOnInit() {
+    this.trainerId=parseInt(sessionStorage.getItem('trainerId') || '0');
+
+    if (this.trainerId==0) {
+      this.router.navigateByUrl("/login")
+    }
+    this.updateUsers(this.trainerId);
     this.getMembers();
     this.getTrainingTypes();
     this.getPackages();
@@ -60,11 +68,9 @@ export class MembersPage implements OnInit {
   }
 
    getMembers(){
-    this.trainerId=parseInt(sessionStorage.getItem('trainerId') || '0');
-
     this.userService.getUsers(this.trainerId).subscribe({
-      next: (data) => {this.members.set(data);
-        console.log(data);
+      next: (data) => {
+        this.members.set(data);
       },
       error: (error) => this.showErrorAlert(error.error)
     });
@@ -93,8 +99,8 @@ export class MembersPage implements OnInit {
 
   getTrainingTypes(){
     this.trainingTypesService.getTrainingTypes().subscribe({
-      next: (data) => {this.trainingTypes.set(data);
-        console.log(data);
+      next: (data) => {
+        this.trainingTypes.set(data);
       },
       error: (error) => this.showErrorAlert(error.error)
     });
@@ -102,11 +108,15 @@ export class MembersPage implements OnInit {
 
   getPackages(){
     this.packageService.getPackages().subscribe({
-      next: (data) => {this.packages.set(data);
-        console.log(data);
+      next: (data) => {
+        this.packages.set(data);
       },
       error: (error) => this.showErrorAlert(error.error)
     });
+  }
+
+  updateUsers(trainerId:number){
+    this.trainerService.updateUsers(trainerId).subscribe({}); 
   }
 
   ionViewWillEnter(){

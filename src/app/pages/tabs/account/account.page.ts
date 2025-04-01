@@ -26,7 +26,7 @@ export class AccountPage implements OnInit {
   //service
   private trainerService=inject(TrainerService);
 
-  constructor(private router:Router,private alertController: AlertController) {
+  constructor(private alertController: AlertController,private router:Router) {
     addIcons({create});
   }
 
@@ -46,11 +46,9 @@ export class AccountPage implements OnInit {
       this.showErrorAlert();
       this.router.navigate(['/tabs']);
     }
-    console.log(this.trainerId());
     
     this.trainerService.getTrainer(this.trainerId()).subscribe({
       next:(data)=>{
-        console.log(data);
         this.trainer.set(data);
       },
       error:(error)=>{

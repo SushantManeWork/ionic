@@ -10,39 +10,39 @@
         </div>
   
         <ion-card-content>
-          <form [formGroup]="regform" novalidate>
+          <form [formGroup]="registerForm" novalidate>
             <ion-item>
               <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-input formControlName="name" placeholder="Name"></ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('name')?.invalid && regform.get('name')?.touched">
-              <p *ngIf="regform.get('name')?.errors?.['required']">name is required</p>
+            <ion-text color="danger" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+              <p *ngIf="registerForm.get('name')?.errors?.['required']">name is required</p>
             </ion-text>
   
             <ion-item>
               <ion-icon slot="start" name="call-outline"></ion-icon>
               <ion-input formControlName="phone" type="tel" placeholder="Phone"></ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('phone')?.invalid && regform.get('phone')?.touched">
-              <p *ngIf="regform.get('phone')?.errors?.['required']">Phone number is required</p>
-              <p *ngIf="regform.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+            <ion-text color="danger" *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+              <p *ngIf="registerForm.get('phone')?.errors?.['required']">Phone number is required</p>
+              <p *ngIf="registerForm.get('phone')?.errors?.['pattern']">Invalid phone number</p>
             </ion-text>
   
             <ion-item>
               <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
               <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('password')?.invalid && regform.get('password')?.touched">
-              <p *ngIf="regform.get('password')?.errors?.['required']">Password is required</p>
-              <p *ngIf="regform.get('password')?.errors?.['minlength']">Password must be at least 6 characters</p>
+            <ion-text color="danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+              <p *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</p>
+              <p *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</p>
             </ion-text>
 
             <ion-item>
               <ion-icon slot="start" name="location-outline"></ion-icon>
               <ion-input formControlName="address" placeholder="Address"></ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('address')?.invalid && regform.get('address')?.touched">
-              <p *ngIf="regform.get('address')?.errors?.['required']">Address is required</p>
+            <ion-text color="danger" *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched">
+              <p *ngIf="registerForm.get('address')?.errors?.['required']">Address is required</p>
             </ion-text>
   
             <ion-item>
@@ -53,15 +53,15 @@
                 <ion-select-option value="Female">Female</ion-select-option>
               </ion-select>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('gender')?.invalid && regform.get('gender')?.touched">
-              <p *ngIf="regform.get('gender')?.errors?.['required']">Please select a Gender</p>
+            <ion-text color="danger" *ngIf="registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched">
+              <p *ngIf="registerForm.get('gender')?.errors?.['required']">Please select a Gender</p>
             </ion-text>
 
             <ion-item>
               <ion-input formControlName="photo" placeholder="Image Link"></ion-input>
             </ion-item>
-            <ion-text color="danger" *ngIf="regform.get('photo')?.invalid && regform.get('photo')?.touched">
-              <p *ngIf="regform.get('photo')?.errors?.['required']">Image Link is required</p>
+            <ion-text color="danger" *ngIf="registerForm.get('photo')?.invalid && registerForm.get('photo')?.touched">
+              <p *ngIf="registerForm.get('photo')?.errors?.['required']">Image Link is required</p>
             </ion-text>
 
             <div>
@@ -101,24 +101,24 @@
           </div>
     
           <ion-card-content>
-            <form [formGroup]="loginform">
+            <form [formGroup]="loginForm">
     
               <ion-item>
                 <ion-icon slot="start" name="call-outline"></ion-icon>
                 <ion-input formControlName="phone" type="number" placeholder="Phone" id="Phone"></ion-input>
               </ion-item>
-              <ion-text color="danger" *ngIf="loginform.get('phone')?.invalid && loginform.get('phone')?.touched">
-                <p *ngIf="loginform.get('phone')?.errors?.['required']">Phone number is required</p>
-                <p *ngIf="loginform.get('phone')?.errors?.['pattern']">Invalid phone number</p>
+              <ion-text color="danger" *ngIf="loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched">
+                <p *ngIf="loginForm.get('phone')?.errors?.['required']">Phone number is required</p>
+                <p *ngIf="loginForm.get('phone')?.errors?.['pattern']">Invalid phone number</p>
               </ion-text>
               
               <ion-item>
                 <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
                 <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
               </ion-item>
-              <ion-text color="danger" *ngIf="loginform.get('password')?.invalid && loginform.get('password')?.touched">
-                <p *ngIf="loginform.get('password')?.errors?.['required']">Password is required</p>
-                <p *ngIf="loginform.get('password')?.errors?.['pattern']">Password must have 6 length,1 uppercase,1 lowercase,1 special character,1 digit</p>
+              <ion-text color="danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                <p *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</p>
+                <p *ngIf="loginForm.get('password')?.errors?.['pattern']">Password must have 6 length,1 uppercase,1 lowercase,1 special character,1 digit</p>
               </ion-text>
     
               <ion-button (click)="loginTrainer()" expand="block" shape="round">Login</ion-button>

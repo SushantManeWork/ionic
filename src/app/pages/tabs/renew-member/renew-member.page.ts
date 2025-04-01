@@ -101,12 +101,9 @@ export class RenewMemberPage implements OnInit {
     this.userBatch.dueAmount=(this.package?.totalAmount || 0)-(this.userBatch.paid || 0)-(this.package?.discount || 0);
     this.setPlanExpiryDate()
     this.user.trainingPackage=this.package?.id || 0;
-    console.log(this.userBatch);
-    console.log(this.user);
     
     this.userBatchInfoService.update(this.id,this.userBatch).subscribe({
       next:(data)=>{
-        console.log(data);
         this.user.userBatchInfo=parseInt(data.toString(), 10);
       },
       error:(error)=>{
@@ -117,7 +114,7 @@ export class RenewMemberPage implements OnInit {
 
     setTimeout(() => {
       this.userService.updateUser(this.user.userId,this.user).subscribe({
-        next:(data)=>{console.log(data);
+        next:(data)=>{
           this.router.navigateByUrl("/tabs/members")
         },
         error:(error)=>{
@@ -137,7 +134,6 @@ export class RenewMemberPage implements OnInit {
           this.navCtrl.back();
         }
         this.setMemeberDetails();
-        console.log(member);
       },
       error: (error) => {
         this.showErrorAlert(error.error);
@@ -158,8 +154,8 @@ export class RenewMemberPage implements OnInit {
 
   getPackages(){
     this.packageService.getPackages().subscribe({
-      next: (data) => {this.packages.set(data);
-        console.log(data);
+      next: (data) => {
+        this.packages.set(data);
       },
       error: (error) => {
         this.showErrorAlert(error.error);
@@ -170,8 +166,8 @@ export class RenewMemberPage implements OnInit {
 
   getTrainingTypes(){
     this.trainingService.getTrainingTypes().subscribe({
-      next: (data) => {this.trainingTypes.set(data);
-        console.log(data);
+      next: (data) => {
+        this.trainingTypes.set(data);
       },
       error: (error) => {
         this.showErrorAlert(error.error);

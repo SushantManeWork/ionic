@@ -53,6 +53,13 @@
         <p *ngIf="userForm.get('address')?.errors?.['required']">Address is required</p>
       </ion-text>
 
+      <ion-item>
+        <ion-input label="Image Link" formControlName="photo" labelPlacement="floating" required></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="userForm.get('photo')?.touched || userForm.get('photo')?.invalid">
+        <p *ngIf="userForm.get('photo')?.errors?.['required']">Photo is required</p>
+      </ion-text>
+
       <ion-button (click)="updateMember()" expand="block" shape="round">Update</ion-button>
     </form>
     </ion-list>

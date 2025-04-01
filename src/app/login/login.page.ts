@@ -11,6 +11,7 @@ import { TrainingTypeService } from 'src/app/services/trainingType/training-type
 import { ITrainingType } from 'src/app/interface/ITrainingType';
 import { TrainerService } from 'src/app/services/trainer/trainer.service';
 import { Router } from '@angular/router';
+import { AlertController } from "@ionic/angular";
 
 //service
 
@@ -25,8 +26,8 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
   public login: boolean = false;
-  public loginform: FormGroup;
-  public regform: FormGroup;
+  public loginForm: FormGroup;
+  public registerForm: FormGroup;
   public showSpeciality: boolean = false;
   public trainingTypes = signal<ITrainingType[] | null>(null);
 
@@ -34,10 +35,11 @@ export class LoginPage implements OnInit {
   private trainingTypeService=inject(TrainingTypeService);
   private trainerService=inject(TrainerService);
 
-  constructor(private formBuilder:FormBuilder, private router:Router) {
-    addIcons({personOutline,locationOutline,callOutline,mailOutline,lockClosedOutline,person,caretDownOutline,caretUpOutline,happyOutline});
+  constructor(private formBuilder:FormBuilder, private router:Router,private alertController: AlertController) {
+    addIcons({callOutline, caretDownOutline, caretUpOutline, happyOutline, locationOutline, 
+      lockClosedOutline, mailOutline, person, personOutline});
 
-    this.regform = this.formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       trainerId: [0],
       name : ['',[Validators.required]],
       password: ['',[Validators.required,Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ -/:-@\[-`{-~]).{6,64}$")]],
@@ -48,7 +50,7 @@ export class LoginPage implements OnInit {
       trainingTypes:formBuilder.array([]),
     })
 
-    this.loginform = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       phone: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['',[Validators.required,Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ -/:-@\[-`{-~]).{6,64}$")]]
     })
@@ -64,53 +66,56 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async showErrorAlert(message:string="Something went wrong!! \n Please try again.") {
+    const alert=await this.alertController.create({
+      header:"Error",
+      message:message,
+      buttons:['OK']
+    });
+    await alert.present();
+  }
+
   get errorControl() {
-    return this.regform?.controls;
+    return this.registerForm?.controls;
   };
 
   signup() {
-    if (this.regform.valid) {
-      const requestData = this.regform.value;
-      console.log("Request Payload:", requestData);  
+    if (this.registerForm.valid) {
+      const requestData = this.registerForm.value; 
       this.trainerService.createTrainer(requestData).subscribe({
         next: data => {
-          console.log("Account Created:", data);
+          this.showErrorAlert("Account Created");
           this.login=!this.login;
         },
         error: error => {
-          console.error("Error creating account:", error.error.message);
+          this.showErrorAlert(error.error);
         }
       });
     } else {
-      console.log("Form is invalid");
-      this.regform.markAllAsTouched();
+      this.showErrorAlert("Form is invalid");
+      this.registerForm.markAllAsTouched();
     }
   }
 
   loginTrainer() {
-    if (this.loginform.valid) {
-      const requestData = this.loginform.value;
+    if (this.loginForm.valid) {
+      const requestData = this.loginForm.value;
       console.log("Request Payload:", requestData);  
       this.trainerService.login(requestData).subscribe({
         next: data => {
 
           if (data!=null) {
             sessionStorage.setItem("trainerId", data.toString());
-            this.trainerService.updateUsers(data).subscribe({
-              next: data => { console.log("User updated:", data); 
-              },
-              error: error => { console.error("Error updating user:", error.error.message); }
-            }); 
           }
           this.router.navigate(['/tabs']);
         },
         error: error => {
-          console.error("Error creating account:", error.error.message);
+          this.showErrorAlert(error.error)
         }
       });
     } else {
-      console.log("Form is invalid");
-      this.loginform.markAllAsTouched();
+      this.showErrorAlert("Form is invalid");
+      this.loginForm.markAllAsTouched();
     }
   }
 
@@ -118,8 +123,7 @@ export class LoginPage implements OnInit {
     this.trainingTypeService.getTrainingTypes().subscribe({
       next: (data) => {this.trainingTypes.set(data);
         console.log(data);
-      },
-      error: (error) => console.error(error)
+      }
     });
   }
 
@@ -128,7 +132,7 @@ export class LoginPage implements OnInit {
   }
 
   onCheckboxChange(event:any,option:number){
-    const selectedTypes:FormArray = this.regform.get('trainingTypes') as FormArray;
+    const selectedTypes:FormArray = this.registerForm.get('trainingTypes') as FormArray;
 
     if(event.detail.checked){
       selectedTypes.push(this.formBuilder.control(option));
@@ -142,6 +146,6 @@ export class LoginPage implements OnInit {
   }
     
   isChecked(id:number):boolean{
-    return this.regform.value.trainingTypes.includes(id);
+    return this.registerForm.value.trainingTypes.includes(id);
   }
 }

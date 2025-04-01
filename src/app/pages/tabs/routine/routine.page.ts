@@ -27,7 +27,7 @@ export class RoutinePage implements OnInit {
   //service
   private routineService=inject(RoutineService);
 
-  constructor(private router:Router,private alertController: AlertController) { 
+  constructor(private alertController: AlertController,private router:Router) { 
     addIcons({caretDownOutline,caretUpOutline})
   }
 
@@ -41,7 +41,6 @@ export class RoutinePage implements OnInit {
     
     this.routineService.getTrainerRoutine(this.trainerId()).subscribe({
       next:(data)=>{
-        console.log(data);
         this.routines.set(data);
       },
       error:(error)=>{

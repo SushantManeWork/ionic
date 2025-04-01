@@ -61,7 +61,7 @@ export class AddMemberPage implements OnInit {
   private userBatchInfoService = inject(UserBatchService);
   private userService = inject(UserServiceService);
 
-  constructor(private router: Router,private alertController: AlertController) { 
+  constructor(private alertController: AlertController,private router: Router) { 
     this.user.trainer=parseInt(sessionStorage.getItem('trainerId') || '0');
     addIcons({add,remove})
     this.userBatch.planPurchaseDate=new Date(); 
@@ -85,8 +85,6 @@ export class AddMemberPage implements OnInit {
     this.userBatch.dueAmount=(this.package?.totalAmount || 0)-(this.userBatch.paid || 0)-(this.package?.discount || 0);
     this.setDates()
     this.user.trainingPackage=this.package?.id || 0;
-    console.log(this.userBatch);
-    console.log(this.user);
     if (!this.validateUserBatchInfo()) {
       this.showErrorAlert("Please insert valid details");
       return;
@@ -108,26 +106,23 @@ export class AddMemberPage implements OnInit {
       return;
     }
     setTimeout(() => {
-      this.userService.createUser(this.user).subscribe({
-        next:(data)=>{console.log(data);
-          this.router.navigateByUrl("/tabs/members")
-        },
-        error:(error)=>{
-          this.userBatchInfoService.delete(this.user.userBatchInfo).subscribe({
-            next:(val)=>console.log(val),
-            error:(error)=>{
-              this.showErrorAlert(error.error);
-            }
-          });
-          this.showErrorAlert(error.error);
-          this.router.navigateByUrl("/tabs/members");
-        } 
-      });
+      if (this.user.userBatchInfo) {
+        this.userService.createUser(this.user).subscribe({
+          next:(data)=>{
+            this.router.navigateByUrl("/tabs/members")
+          },
+          error:(error)=>{
+            this.deleteUserBatchInfo();
+            this.showErrorAlert(error.error);
+            this.router.navigateByUrl("/tabs/members");
+          } 
+        });
+      }
     }, 3000);
   }
 
   validateUserBatchInfo():boolean{
-    if(!this.userBatch.planPurchaseDate || !this.userBatch.planExpiryDate || this.userBatch.batchName=='' || this.userBatch.batchTime=='' || this.userBatch.paid==0){
+    if(!this.userBatch.planPurchaseDate || !this.userBatch.planExpiryDate || this.userBatch.batchName=='' || this.userBatch.batchTime=='' || this.userBatch.paid==0 || this.userBatch.paid > (this.package?.totalAmount || 0)-(this.package?.discount || 0)){
       return false;
     }
     return true;
@@ -135,7 +130,7 @@ export class AddMemberPage implements OnInit {
 
   validateUser():boolean{
     if (this.user.name=='' || this.user.phone=='' || this.user.photo=='' || this.user.address=='' || this.user.gender=='' || 
-    this.user.trainingType==0 || this.user.trainingPackage==0 || this.user.userBatchInfo==0) {
+    this.user.trainingType==0 || this.user.trainingPackage==0) {
       if (this.user.photo.length>255) {
         this.showErrorAlert("Image Link is too Long");
       }
@@ -150,19 +145,17 @@ export class AddMemberPage implements OnInit {
 
   getPackages(){
     this.packageService.getPackages().subscribe({
-      next: (data) => {this.packages.set(data);
-        console.log(data);
-      },
-      error: (error) => console.error(error)
+      next: (data) => {
+        this.packages.set(data);
+      }
     });
   }
 
   getTrainingTypes(){
     this.trainingService.getTrainingTypesByTrainer(this.user.trainer).subscribe({
-      next: (data) => {this.trainingTypes.set(data);
-        console.log(data);
-      },
-      error: (error) => console.error(error)
+      next: (data) => {
+        this.trainingTypes.set(data);
+      }
     });
   }
 
@@ -175,5 +168,13 @@ export class AddMemberPage implements OnInit {
       a.setDate(a.getDate()+days) 
       this.userBatch.planExpiryDate=new Date(a.toISOString());
     }
+  }
+
+  deleteUserBatchInfo(){
+    this.userBatchInfoService.delete(this.user.userBatchInfo).subscribe({
+      error:(error)=>{
+        this.showErrorAlert(error.error);
+      }
+    });
   }
 }

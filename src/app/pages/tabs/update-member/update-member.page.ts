@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar ,IonButtons,IonBackButton,IonCard,IonList,IonInput,
   IonItem,IonRadioGroup,IonLabel,NavController,IonRadio,
 IonCardHeader,IonText,IonButton} from '@ionic/angular/standalone';
@@ -31,15 +31,15 @@ export class UpdateMemberPage implements OnInit {
   //service
   private userService = inject(UserServiceService);
 
-  constructor(private formBuilder:FormBuilder,private router:Router,private alertController: AlertController) { 
+  constructor(private alertController: AlertController,private formBuilder:FormBuilder,private router:Router) { 
     addIcons({create});
     this.userForm=formBuilder.group({
       userId:[0],
-      name:[''],
-      photo:[''],
-      phone:[''],
-      gender:[''],
-      address:[''],
+      name:['',[Validators.required]],
+      photo:['',[Validators.required]],
+      phone:['',[Validators.required]],
+      gender:['',[Validators.required]],
+      address:['',[Validators.required]],
       trainer:[0],
       trainingPackage:[0],
       userBatchInfo:[0],
@@ -50,8 +50,7 @@ export class UpdateMemberPage implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
-
+  
     if (!id) {
       this.showErrorAlert();
       this.navCtrl.back();
@@ -69,6 +68,10 @@ export class UpdateMemberPage implements OnInit {
     });
     await alert.present();
   }
+
+  get errorControl() {
+    return this.userForm?.controls;
+  };
 
   getMemberById() {
     if (this.userId) {
@@ -88,7 +91,7 @@ export class UpdateMemberPage implements OnInit {
 
   updateMember(){
     this.userService.updateUser(this.userForm?.controls['userId'].value,this.userForm?.value).subscribe({
-      next:(data)=>{console.log(data);
+      next:(data)=>{
         this.router.navigateByUrl("/tabs/members")
       },
       error:(error)=>{

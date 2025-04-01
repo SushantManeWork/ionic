@@ -9,7 +9,7 @@ import { IMember } from 'src/app/interface/imember';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from "@angular/common";
 import { ActionButtonComponent } from 'src/app/widgets/action-button/action-button.component';
-import { addCircle, ban, barbell, call, chatboxEllipses, logoWhatsapp, notifications, person } from 'ionicons/icons';
+import { addCircle, ban, barbell, call, chatboxEllipses, create, logoWhatsapp, notifications, person } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { UserServiceService } from 'src/app/services/userService/user-service.service';
 import { AlertController } from "@ionic/angular";
@@ -33,12 +33,11 @@ export class MemberDetailsPage implements OnInit {
   private userService = inject(UserServiceService);
 
   constructor(private alertController: AlertController,private router:Router) {
-    addIcons({ addCircle, notifications, call, logoWhatsapp, chatboxEllipses, person, barbell, ban });
+    addIcons({ addCircle, ban, barbell, call, chatboxEllipses, create, logoWhatsapp, notifications, person });
   }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
 
     if (!id) {
       this.navCtrl.back();
@@ -61,7 +60,6 @@ export class MemberDetailsPage implements OnInit {
     this.userService.findById(this.id).subscribe({
       next: (member) => {
         this.member.set(member);
-        console.log(member);
       },
       error: (error) => {
         this.showErrorAlert(error.error)

@@ -15,7 +15,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <form [formGroup]="trainerForm">
+      <form [formGroup]="trainerForm" novalidate>
         <ion-item>
           <ion-icon slot="start" name="person-outline"></ion-icon>
           <ion-input formControlName="name" placeholder="Name"></ion-input>
@@ -81,7 +81,7 @@
                   <ion-checkbox (ionChange)="onCheckboxChange($event,trainingType.id)" [checked]="isChecked(trainingType.id)">{{trainingType.trainingType}}</ion-checkbox>
               </ion-item>
               </div>
-          </div>
+        </div><br>
         
         <ion-button (click)="updateTrainer()" expand="block" shape="round">Update</ion-button>
       </form>

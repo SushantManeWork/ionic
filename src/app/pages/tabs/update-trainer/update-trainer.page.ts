@@ -37,9 +37,9 @@ export class UpdateTrainerPage implements OnInit {
   private trainerService=inject(TrainerService);
   private trainingTypeService=inject(TrainingTypeService);
   
-  constructor(private formBuilder:FormBuilder, private router:Router,private alertController: AlertController) {
-    addIcons({personOutline,locationOutline,callOutline,mailOutline,lockClosedOutline,person,
-      caretDownOutline,caretUpOutline,happyOutline});
+  constructor(private alertController: AlertController,private formBuilder:FormBuilder, private router:Router) {
+    addIcons({callOutline, caretDownOutline, caretUpOutline, happyOutline, locationOutline,
+       lockClosedOutline, mailOutline, person, personOutline});
 
     this.trainerForm = this.formBuilder.group({
       trainerId: [0],
@@ -55,8 +55,7 @@ export class UpdateTrainerPage implements OnInit {
 
   ngOnInit() {
     const id =JSON.parse( sessionStorage.getItem("trainerId") || '0')
-    console.log(id);
-
+  
     if (!id) {
       this.showErrorAlert();
       this.navCtrl.back();
@@ -75,6 +74,10 @@ export class UpdateTrainerPage implements OnInit {
     });
     await alert.present();
   }
+
+  get errorControl() {
+    return this.trainerForm?.controls;
+  };
 
   updateTrainer(){
     this.trainerService.update(this.trainerForm.controls['trainerId'].value,this.trainerForm.value).subscribe({
